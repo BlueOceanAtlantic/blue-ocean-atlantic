@@ -50,7 +50,7 @@ class EditDeleteUserProject extends React.Component {
   }
 
   saveChanges() {
-    const { user_id } = this.props;
+    const { user_id, toggleProjectEditDelete } = this.props;
     const { _id } = this.props.project;
     const {
       project_name,
@@ -70,7 +70,7 @@ class EditDeleteUserProject extends React.Component {
     axios
       .put(`/users/${user_id}/projects/${_id}`, editProjectObj)
       .then((response) => {
-        console.log("project put");
+        toggleProjectEditDelete();
       })
       .catch((err) => {
         throw err;
@@ -78,12 +78,12 @@ class EditDeleteUserProject extends React.Component {
   }
 
   deleteProject() {
-    const { user_id } = this.props;
+    const { user_id, toggleProjectEditDelete } = this.props;
     const { _id } = this.props.project;
     axios
       .delete(`/users/${user_id}/projects/${_id}`)
       .then(() => {
-        console.log("project deleted");
+        toggleProjectEditDelete();
       })
       .catch((err) => {
         throw err;

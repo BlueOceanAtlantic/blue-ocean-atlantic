@@ -45,7 +45,7 @@ class EditDeleteUserTool extends React.Component {
     this.setState({ help: !help });
   }
   saveChanges() {
-    const { user_id } = this.props;
+    const { user_id, toggleToolEditDelete } = this.props;
     const { _id } = this.props.tool;
     const { tool_name, tool_photos, help } = this.state;
     let editToolObj = {
@@ -57,7 +57,7 @@ class EditDeleteUserTool extends React.Component {
     axios
       .put(`/users/${user_id}/tools/${_id}`)
       .then((response) => {
-        console.log("tool put");
+        toggleToolEditDelete();
       })
       .catch((err) => {
         throw err;

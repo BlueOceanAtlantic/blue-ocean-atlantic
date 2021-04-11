@@ -45,7 +45,7 @@ class AddToolForm extends React.Component {
   }
 
   handleAddToolToToolList() {
-    const {user_id} = this.props;
+    const {user_id, toggleAddToolForm} = this.props;
     const { tool_name, tool_photos, help } = this.state;
     let newUserToolObj = {
       tool_name: tool_name,
@@ -56,7 +56,7 @@ class AddToolForm extends React.Component {
     axios
       .post(`/users/${user_id}/tools`, newUserToolObj)
       .then((response) => {
-        console.log(response);
+        toggleAddToolForm();
       })
       .catch((err) => {
         throw err;

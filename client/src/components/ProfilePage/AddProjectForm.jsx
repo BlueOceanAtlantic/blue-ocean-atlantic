@@ -89,7 +89,7 @@ class AddProjectForm extends React.Component {
   }
 
   handleSubmitNewProject() {
-    const {user_id} = this.props;
+    const {user_id, toggleAddProjectForm} = this.props;
     const {
       project_name,
       project_description,
@@ -107,7 +107,7 @@ class AddProjectForm extends React.Component {
     axios
       .post(`/users/${user_id}/projects`, newUserProjectObj)
       .then((response) => {
-        console.log(response);
+        toggleAddProjectForm();
       })
       .catch((err) => {
         throw err;
