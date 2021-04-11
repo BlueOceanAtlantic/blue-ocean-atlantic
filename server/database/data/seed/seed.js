@@ -14,7 +14,7 @@ const { importUsers, importProjects, importTools } = require('./utility/imports'
 
 // import all
 (function load() {
-  const imports = [importUsers, importProjects, importTools];
+  const imports = [importUsers, importProjects, importProjects, importProjects, importTools];
 
   for (let i = 0; i < imports.length; i++) {
     exec(imports[i], (error, stdout, stderr) => {
