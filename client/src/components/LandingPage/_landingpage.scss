@@ -24,3 +24,14 @@ $accent-hover-color: rgb(94, 11, 11);
   flex-direction: column;
   overflow: scroll;
 }
+.login-text {
+  grid-column-start: 4;
+}
+.lpprojectshead {
+  grid-column-start: 2;
+  grid-row-start: 1;
+}
+.lpexpertshead {
+  grid-column-start: 3;
+  grid-row-start: 1;
+}
