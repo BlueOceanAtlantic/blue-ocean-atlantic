@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaRegThumbsUp, FaRegThumbsDown} from 'react-icons/fa';
+import { FaRegThumbsUp, FaRegThumbsDown } from 'react-icons/fa';
 import { VscReport } from 'react-icons/vsc';
 
 import HandyIcon from '../HandyIcon';
@@ -78,7 +78,7 @@ class ToolCard extends React.Component {
     }
 
     return (
-      <div className="tool-card">
+      <div className="tool-card static-width">
         <div className="user-name-and-score-div">
           <div className="tool-user-avatar-div"><img className="tool-avatar-img" src={photo} alt={name} /></div>
           <div className="tool-user-name-div">{`${name}(${score})`}</div>

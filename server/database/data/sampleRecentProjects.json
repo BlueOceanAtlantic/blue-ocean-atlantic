@@ -2,16 +2,16 @@
   {
       "help": true,
       "project_photos": [
-          "https://picsum.photos/200/300",
-          "https://picsum.photos/200/300",
-          "https://picsum.photos/200/300"
+        "https://loremflickr.com/320/240/garden,plot",
+          "https://loremflickr.com/320/240/garden,plot",
+          "https://loremflickr.com/320/240/garden,plot"
       ],
       "needed_tools": [
           "axe"
       ],
       "_id": "606ce1e6976fe4d9c0288e50",
-      "project_name": "Stepping Stone Walkway",
-      "project_description": "mark up get below to",
+      "project_name": "Simple Garden",
+      "project_description": "mattis. Integer eu lacus. Quisque imperdiet, erat nonummy ultricies ornare, elit elit fermentum risus, at fringilla purus mauris a nunc. In at pede. Cras vulputate velit eu sem. Pellentesque ut ipsum ac mi eleifend egestas. Sed pharetra, felis eget varius ultrices, mauris ipsum porta elit, a feugiat tellus lorem eu",
       "project_owner": "606cda96976fe4d9c0288e30",
       "createdAt": "2021-04-06T22:34:14.861Z",
       "updatedAt": "2021-04-06T22:34:14.861Z",
@@ -20,17 +20,17 @@
   {
       "help": true,
       "project_photos": [
-          "https://picsum.photos/200/300",
-          "https://picsum.photos/200/300",
-          "https://picsum.photos/200/300"
+        "https://loremflickr.com/320/240/lawn,care",
+          "https://loremflickr.com/320/240/lawn,care",
+          "https://loremflickr.com/320/240/lawn,care"
       ],
       "needed_tools": [
           "hammer",
           "wrench"
       ],
       "_id": "606ce1c2976fe4d9c0288e4f",
-      "project_name": "Swing Set",
-      "project_description": "mark up get below to",
+      "project_name": "Durable Lawn Care",
+      "project_description": "commodo tincidunt nibh. Phasellus nulla. Integer vulputate, risus a ultricies adipiscing, enim mi tempor lorem, eget mollis lectus pede et risus. Quisque libero lacus, varius et, euismod et, commodo at, libero. Morbi accumsan laoreet ipsum. Curabitur consequat, lectus sit amet luctus vulputate, nisi sem semper erat, in consectetuer ipsum nunc",
       "project_owner": "606cda96976fe4d9c0288e30",
       "createdAt": "2021-04-06T22:33:38.411Z",
       "updatedAt": "2021-04-06T22:33:38.411Z",
@@ -39,17 +39,17 @@
   {
       "help": true,
       "project_photos": [
-          "https://picsum.photos/200/300",
-          "https://picsum.photos/200/300",
-          "https://picsum.photos/200/300"
+        "https://loremflickr.com/320/240/guitar,repair",
+          "https://loremflickr.com/320/240/guitar,repair",
+          "https://loremflickr.com/320/240/guitar,repair"
       ],
       "needed_tools": [
           "hammer",
           "wrench"
       ],
       "_id": "606ce1b2976fe4d9c0288e4e",
-      "project_name": "Swing Set",
-      "project_description": "mark up get below to",
+      "project_name": "My First Guitar Repair",
+      "project_description": "ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis",
       "project_owner": "606cda71976fe4d9c0288e2f",
       "createdAt": "2021-04-06T22:33:22.683Z",
       "updatedAt": "2021-04-06T22:33:22.683Z",
@@ -58,16 +58,16 @@
   {
       "help": true,
       "project_photos": [
-          "https://picsum.photos/200/300",
-          "https://picsum.photos/200/300",
-          "https://picsum.photos/200/300"
+        "https://loremflickr.com/320/240/ducttape,wallet",
+          "https://loremflickr.com/320/240/ducttape,wallet",
+          "https://loremflickr.com/320/240/ducttape,wallet"
       ],
       "needed_tools": [
           "pliers"
       ],
       "_id": "606ce192976fe4d9c0288e4d",
-      "project_name": "Hammock",
-      "project_description": "mark up get below to",
+      "project_name": "Awesome Ducttape Wallet",
+      "project_description": "quis massa. Mauris vestibulum, neque sed dictum eleifend, nunc risus varius orci, in consequat enim diam vel arcu. Curabitur ut odio vel est tempor bibendum. Donec felis orci, adipiscing non, luctus sit amet, faucibus ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum",
       "project_owner": "606cda71976fe4d9c0288e2f",
       "createdAt": "2021-04-06T22:32:50.143Z",
       "updatedAt": "2021-04-06T22:32:50.143Z",
@@ -76,16 +76,16 @@
   {
       "help": true,
       "project_photos": [
-          "https://picsum.photos/200/300",
-          "https://picsum.photos/200/300",
-          "https://picsum.photos/200/300"
+        "https://loremflickr.com/200/300/classic,car",
+          "https://loremflickr.com/200/300/classic,car",
+          "https://loremflickr.com/200/300/classic,car"
       ],
       "needed_tools": [
           "pliers"
       ],
       "_id": "606ce180976fe4d9c0288e4c",
       "project_name": "Classic Car Repair",
-      "project_description": "mark up get below to",
+      "project_description": "ut, nulla. Cras eu tellus eu augue porttitor interdum. Sed auctor odio a purus. Duis elementum, dui quis accumsan convallis, ante lectus convallis est, vitae sodales nisi magna sed dui. Fusce aliquam, enim nec tempus scelerisque, lorem ipsum sodales purus, in molestie tortor nibh sit amet orci. Ut sagittis lobortis",
       "project_owner": "606cda71976fe4d9c0288e2f",
       "createdAt": "2021-04-06T22:32:32.255Z",
       "updatedAt": "2021-04-06T22:32:32.255Z",

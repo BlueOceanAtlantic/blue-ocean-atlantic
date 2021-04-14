@@ -45,8 +45,5 @@ exports.addRefs = (users, projects, tools, cb) => {
   for (let i = 0; i < users.length; i++) {
     addNeeds(projects[indexOf(projects)], tools[indexOf(tools)]);
   }
-  for (let i = 0; i < users.length; i++) {
-    addNeeds(projects[indexOf(projects)], tools[indexOf(tools)]);
-  }
   return cb(null, 'fin');
 };

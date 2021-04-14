@@ -106,16 +106,16 @@ class ProjectCard extends React.Component {
     const faveHeartStyle = favorited ? <BsHeartFill onClick={this.toggleFavorite} size={28} className="project-img-heart" /> : <BsHeart onClick={this.toggleFavorite} size={28} className="project-img-heart" />;
 
     const faveButton = favorited ? <div className="card-footer-button" onClick={this.toggleFavorite}><BsHeartFill /> Favorite </div> :
-    <div className="card-footer-button" onClick={this.toggleFavorite}><BsHeart /> Not favorite</div>
+    <div className="card-footer-button" onClick={this.toggleFavorite}><BsHeart /> Not favorite</div>;
     // const favorited = this.state.favorited ? <div className="project-footer-button">Unfavorite
 
     return (
-      <div className="project-card">
+      <div className="project-card static-width">
         <div className="project-name-div">{`Project: ${project.project_name}`}</div>
         <div className="project-info">
           <div className="project-photo-div">
             {faveHeartStyle}
-            <img src={project.project_photos[0]} alt="project" />
+            <img className="project-photo" src={project.project_photos[0]} alt="project" />
           </div>
           <div className="project-details">
             <span className="project-description">{`${project.project_description} just typing all of this out so it can fill more content incase someone typed a whole buncha stuff for content`}</span>
@@ -134,7 +134,8 @@ class ProjectCard extends React.Component {
           <div className="card-footer-buttons-div">
             <div className={`card-footer-button ${vote === 'up' ? 'up' : ''}`} onClick={() => this.handleProjectVote('up')}><FaRegThumbsUp />Upvote</div>
             <div className={`card-footer-button ${vote === 'down' ? 'down' : ''}`} onClick={() => this.handleProjectVote('down')}><FaRegThumbsDown />Downvote</div>
-            <div className="card-footer-button" onClick={this.toggleFavorite}><FaRegThumbsUp />{favorited ? 'Favorite' : 'Not favorite'}</div>
+            {/* <div className="card-footer-button" onClick={this.toggleFavorite}><FaRegThumbsUp />{favorited ? 'Favorite' : 'Not favorite'}</div> */}
+            {faveButton}
             <MessageButton user={user} otherUser={project.project_owner} usedIn="card-footer-button" />
             <div className={`card-footer-button ${report ? 'report' : ''}`} onClick={() => this.handleProjectVote('report')}><VscReport />Report</div>
           </div>

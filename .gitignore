@@ -4,3 +4,4 @@ config.js
 .dropboxignore
 .env
 client/public/main.js.map
+.DS_Store
