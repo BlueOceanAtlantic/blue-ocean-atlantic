@@ -7,13 +7,13 @@ const EditPhotoDisplay = ({ photos, deleteFunction }) => {
       {photos.map((photo, index) => {
         return (
           <div key={index}>
-            <img src={URL.createObjectURL(photo)} />
+            <img src={photo} />
             <button
               onClick={(e) => {
                 let target = hf.handleGetTargetName(e);
                 deleteFunction(target);
               }}
-              name={photo}
+              name={index}
             >
               X
             </button>

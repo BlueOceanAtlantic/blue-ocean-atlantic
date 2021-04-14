@@ -11,6 +11,7 @@ class AddToolForm extends React.Component {
       tool_name: "",
       help: false,
       tool_photos: [],
+      photo_previews: [],
     };
 
     this.handleGetFields = this.handleGetFields.bind(this);
@@ -31,16 +32,32 @@ class AddToolForm extends React.Component {
 
   handleAddToolPhoto(e) {
     e.preventDefault();
-    const { tool_photos } = this.state;
+    const { tool_photos, photo_previews } = this.state;
     let photo = e.target.files[0];
+    let preview = URL.createObjectURL(photo);
     let revisedPhotos = tool_photos.concat(photo);
-    this.setState({ tool_photos: revisedPhotos });
+    let revisedPreviews = photo_previews.concat(preview);
+    this.setState({
+      tool_photos: revisedPhotos,
+      photo_previews: revisedPreviews,
+    });
   }
 
-  handleDeleteToolPhoto(itemToDelete) {
-    const { tool_photos } = this.state;
-    let updatedToolPhotos = hf.handleDeleteItem(itemToDelete, tool_photos);
-    this.setState({ tool_photos: updatedToolPhotos });
+  handleDeleteToolPhoto(photoIndex) {
+    const { tool_photos, photo_previews } = this.state;
+    photoIndex = parseInt(photoIndex);
+    let revisedPhotos = [];
+    let revisedPreviews = [];
+    for (let i = 0; i < tool_photos.length; i++) {
+      if (i !== photoIndex) {
+        revisedPhotos.push(tool_photos[i]);
+        revisedPreviews.push(photo_previews[i]);
+      }
+    }
+    this.setState({
+      tool_photos: revisedPhotos,
+      photo_previews: revisedPreviews,
+    });
   }
 
   handleAddToolToToolList() {
@@ -65,7 +82,7 @@ class AddToolForm extends React.Component {
   }
   render() {
     const { toggleAddToolForm } = this.props;
-    const { tool_photos } = this.state;
+    const { tool_photos, photo_previews } = this.state;
     return (
       <div>
         Tool Name:{" "}
@@ -82,7 +99,7 @@ class AddToolForm extends React.Component {
         {tool_photos !== [] && (
           <EditPhotoDisplay
             key={tool_photos}
-            photos={tool_photos}
+            photos={photo_previews}
             deleteFunction={this.handleDeleteToolPhoto}
           />
         )}
