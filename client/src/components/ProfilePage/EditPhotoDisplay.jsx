@@ -1,7 +1,7 @@
 import React from "react";
-import hf from './helperFunctions';
+import hf from "./helperFunctions";
 
-const EditPhotoDisplay = ({ photos, deleteFunction}) => {
+const EditPhotoDisplay = ({ photos, deleteFunction }) => {
   return (
     <div>
       {photos.map((photo, index) => {
@@ -13,7 +13,7 @@ const EditPhotoDisplay = ({ photos, deleteFunction}) => {
                 let target = hf.handleGetTargetName(e);
                 deleteFunction(target);
               }}
-              name={photo}
+              name={index}
             >
               X
             </button>

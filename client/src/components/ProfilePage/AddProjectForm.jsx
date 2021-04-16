@@ -1,8 +1,8 @@
 import React from "react";
 import axios from "axios";
 import ProjectToolList from "./ProjectToolList";
-import EditPhotoDisplay from './EditPhotoDisplay';
-import hf from './helperFunctions';
+import EditPhotoDisplay from "./EditPhotoDisplay";
+import hf from "./helperFunctions";
 
 class AddProjectForm extends React.Component {
   constructor(props) {
@@ -11,10 +11,11 @@ class AddProjectForm extends React.Component {
       project_name: "",
       project_description: "",
       needed_tool: "",
-      project_photo: "",
+      project_photo: null,
       help: false,
       needed_tools: [],
       project_photos: [],
+      photo_previews: [],
     };
     this.handleGetFields = this.handleGetFields.bind(this);
     this.handleToggleNeedHelp = this.handleToggleNeedHelp.bind(this);
@@ -42,30 +43,24 @@ class AddProjectForm extends React.Component {
   }
 
   handleAddToolToProjectToolList(e) {
-    e.preventDefault()
+    e.preventDefault();
     const { needed_tool, needed_tools } = this.state;
-    if (needed_tools.indexOf(needed_tool) === -1 && needed_tool.length > 1) {
-      const revisedTools = needed_tools.concat(needed_tool);
-      this.setState({
-        needed_tools: revisedTools,
-      });
-    }
-    let inputField = document.querySelector('input[name="needed_tool"]');
-    inputField.value = "";
+    const revisedTools = hf.handleAddItem(needed_tool, needed_tools);
+    this.setState({
+      needed_tools: revisedTools,
+    });
   }
 
   handleAddPhotoToProjectPhotoList(e) {
     e.preventDefault();
-    const { project_photo, project_photos } = this.state;
-    if (
-      project_photos.indexOf(project_photo) === -1 &&
-      project_photo.length > 3
-    ) {
-      const revisedPhotos = project_photos.concat(project_photo);
-      this.setState({ project_photos: revisedPhotos });
-      let inputField = document.querySelector('input[name="project_photo"]');
-      inputField.value = "";
-    }
+    const { project_photos, photo_previews } = this.state;
+    let photo = e.target.files[0];
+    let revisedPhotos = project_photos.concat(photo);
+    let revisedPreviews = photo_previews.concat(URL.createObjectURL(photo));
+    this.setState({
+      project_photos: revisedPhotos,
+      photo_previews: revisedPreviews,
+    });
   }
 
   handleDeleteFromProjectToolList(e) {
@@ -81,15 +76,25 @@ class AddProjectForm extends React.Component {
     this.setState({ needed_tools: updatedTools });
   }
 
-  handleDeleteFromProjectPhotos(photoToDelete) {
-
-    const { project_photos } = this.state;
-    const alteredPhotoList = hf.handleDeleteItem(photoToDelete, project_photos);
-    this.setState({ project_photos: alteredPhotoList });
+  handleDeleteFromProjectPhotos(photoIndex) {
+    const { project_photos, photo_previews } = this.state;
+    photoIndex = parseInt(photoIndex);
+    let revisedPhotos = [];
+    let revisedPreviews = [];
+    for (let i = 0; i < project_photos.length; i++) {
+      if (i !== photoIndex) {
+        revisedPhotos.push(project_photos[i]);
+        revisedPreviews.push(photo_previews[i]);
+      }
+    }
+    this.setState({
+      project_photos: revisedPhotos,
+      photo_previews: revisedPreviews,
+    });
   }
 
   handleSubmitNewProject() {
-    const {user_id, toggleAddProjectForm} = this.props;
+    const { user_id, toggleAddProjectForm } = this.props;
     const {
       project_name,
       project_description,
@@ -97,29 +102,33 @@ class AddProjectForm extends React.Component {
       needed_tools,
       project_photos,
     } = this.state;
-    let newUserProjectObj = {
-      project_name: project_name,
-      project_description: project_description,
-      help: help,
-      project_photos: project_photos,
-      needed_tools: needed_tools,
+
+    const postProject = (photoArray) => {
+      let newUserProjectObj = {
+        project_name: project_name,
+        project_description: project_description,
+        help: help,
+        project_photos: photoArray,
+        needed_tools: needed_tools,
+      };
+      axios
+        .post(`/users/${user_id}/projects`, newUserProjectObj)
+        .then((response) => {
+          toggleAddProjectForm();
+        })
+        .catch((err) => {
+          throw err;
+        });
     };
-    axios
-      .post(`/users/${user_id}/projects`, newUserProjectObj)
-      .then((response) => {
-        toggleAddProjectForm();
-      })
-      .catch((err) => {
-        throw err;
-      });
+    hf.cloudinaryUpload(project_photos, postProject);
   }
 
   render() {
-    const { toggleAddProjectForm} = this.props;
-    const { needed_tools, project_photos } = this.state;
+    const { toggleAddProjectForm } = this.props;
+    const { needed_tools, project_photos, photo_previews } = this.state;
     return (
       <div>
-         Project Name:{" "}
+        Project Name:{" "}
         <input
           type="text"
           name="project_name"
@@ -137,7 +146,7 @@ class AddProjectForm extends React.Component {
         <input type="text" name="needed_tool" onChange={this.handleGetFields} />
         <button onClick={this.handleAddToolToProjectToolList}>Add Tool</button>
         <br />
-        {needed_tools.length > 0 && (
+        {needed_tools !== [] && (
           <ProjectToolList
             needed_tools={needed_tools}
             handleDeleteFromProjectToolList={
@@ -147,17 +156,19 @@ class AddProjectForm extends React.Component {
         )}
         Project Photos:{" "}
         <input
-          type="text"
+          type="file"
           name="project_photo"
-          onChange={this.handleGetFields}
-          />
-        <button onClick={this.handleAddPhotoToProjectPhotoList}>
-          Add Photo
-        </button>
+          onChange={this.handleAddPhotoToProjectPhotoList}
+          multiple
+        />
         <br />
-          {project_photos !== [] > 0 && (
-            <EditPhotoDisplay key={project_photos} photos={project_photos} deleteFunction={this.handleDeleteFromProjectPhotos}/>
-          )}
+        {project_photos !== [] && (
+          <EditPhotoDisplay
+            key={project_photos}
+            photos={photo_previews}
+            deleteFunction={this.handleDeleteFromProjectPhotos}
+          />
+        )}
         Need Help?:{" "}
         <input type="checkbox" onChange={this.handleToggleNeedHelp} />
         <br />
