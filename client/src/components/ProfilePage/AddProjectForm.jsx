@@ -11,7 +11,6 @@ class AddProjectForm extends React.Component {
       project_name: "",
       project_description: "",
       needed_tool: "",
-      project_photo: null,
       help: false,
       needed_tools: [],
       project_photos: [],
@@ -125,7 +124,13 @@ class AddProjectForm extends React.Component {
 
   render() {
     const { toggleAddProjectForm } = this.props;
-    const { needed_tools, project_photos, photo_previews } = this.state;
+    const {
+      project_name,
+      project_description,
+      needed_tools,
+      project_photos,
+      photo_previews,
+    } = this.state;
     return (
       <div>
         Project Name:{" "}
