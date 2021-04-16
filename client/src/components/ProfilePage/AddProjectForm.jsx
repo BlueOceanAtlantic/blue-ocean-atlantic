@@ -124,13 +124,7 @@ class AddProjectForm extends React.Component {
 
   render() {
     const { toggleAddProjectForm } = this.props;
-    const {
-      project_name,
-      project_description,
-      needed_tools,
-      project_photos,
-      photo_previews,
-    } = this.state;
+    const { needed_tools, project_photos, photo_previews } = this.state;
     return (
       <div>
         Project Name:{" "}
