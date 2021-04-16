@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import EditPhotoDisplay from "./EditPhotoDisplay";
-import hf from './helperFunctions';
+import hf from "./helperFunctions";
 
 class EditDeleteUserProject extends React.Component {
   constructor(props) {
@@ -10,6 +10,7 @@ class EditDeleteUserProject extends React.Component {
       project_name: this.props.project.project_name,
       project_description: this.props.project.project_description,
       project_photos: this.props.project.project_photos,
+      photo_previews: [],
       needed_tools: this.props.project.needed_tools,
       help: this.props.project.help,
     };
@@ -33,14 +34,20 @@ class EditDeleteUserProject extends React.Component {
     this.setState({
       project_photos: hf.handleAddItem(project_photo, project_photos),
     });
-    let inputField = document.querySelector('input[name="project_photo"]');
-    inputField.value = "";
   }
 
-  handleDeleteFromProjectPhotos(itemToDelete) {
+  handleDeleteFromProjectPhotos(photoIndex) {
+    debugger;
+    photoIndex = parseInt(photoIndex);
     const { project_photos } = this.state;
+    let revisedPhotos = [];
+    for (let i = 0; i < project_photos.length; i++) {
+      if (i !== photoIndex) {
+        revisedPhotos.push(project_photos[i]);
+      }
+    }
     this.setState({
-      project_photos: hf.handleDeleteItem(itemToDelete, project_photos),
+      project_photos: revisedPhotos,
     });
   }
 
@@ -92,9 +99,7 @@ class EditDeleteUserProject extends React.Component {
   }
 
   render() {
-    const {
-      toggleProjectEditDelete,
-    } = this.props;
+    const { toggleProjectEditDelete } = this.props;
     const {
       project_name,
       project_description,
@@ -125,11 +130,10 @@ class EditDeleteUserProject extends React.Component {
         )}
         Project Photos:{" "}
         <input
-          type="text"
+          type="file"
           name="project_photo"
-          onChange={this.handleGetFields}
+          onChange={this.handleAddToPhotoList}
         />
-        <button onClick={this.handleAddToPhotoList}>Add Photo</button>
         Need Help:{" "}
         <input
           type="checkbox"

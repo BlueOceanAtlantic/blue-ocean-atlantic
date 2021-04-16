@@ -5,15 +5,16 @@ const EditPhotoDisplay = ({ photos, deleteFunction }) => {
   return (
     <div>
       {photos.map((photo, index) => {
+        console.log(typeof photo);
         return (
           <div key={index}>
-            <img src={URL.createObjectURL(photo)} />
+            <img src={photo} />
             <button
               onClick={(e) => {
                 let target = hf.handleGetTargetName(e);
                 deleteFunction(target);
               }}
-              name={photo}
+              name={index}
             >
               X
             </button>
