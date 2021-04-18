@@ -1,15 +1,17 @@
 import React from "react";
 import axios from "axios";
 import EditPhotoDisplay from "./EditPhotoDisplay";
-import hf from './helperFunctions';
+import hf from "./helperFunctions";
 
 class EditDeleteUserProject extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      project_name: this.props.project.project_name,
-      project_description: this.props.project.project_description,
+      project_name: "",
+      project_description: "",
       project_photos: this.props.project.project_photos,
+      new_photos: [],
+      new_previews: [],
       needed_tools: this.props.project.needed_tools,
       help: this.props.project.help,
     };
@@ -19,6 +21,7 @@ class EditDeleteUserProject extends React.Component {
     this.handleDeleteFromProjectPhotos = this.handleDeleteFromProjectPhotos.bind(
       this
     );
+    this.handleDeleteFromNewPhotos = this.handleDeleteFromNewPhotos.bind(this);
     this.handleToggleHelp = this.handleToggleHelp.bind(this);
     this.saveChanges = this.saveChanges.bind(this);
     this.deleteProject = this.deleteProject.bind(this);
@@ -28,19 +31,47 @@ class EditDeleteUserProject extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  handleAddToPhotoList() {
-    const { project_photo, project_photos } = this.state;
+  handleAddToPhotoList(e) {
+    e.preventDefault();
+    const { new_photos, new_previews } = this.state;
+    let newPhoto = e.target.files[0];
+    let revisedPhotos = new_photos.concat(newPhoto);
+    let revisedPreviews = new_previews.concat(URL.createObjectURL(newPhoto));
+
     this.setState({
-      project_photos: hf.handleAddItem(project_photo, project_photos),
+      new_photos: revisedPhotos,
+      new_previews: revisedPreviews,
     });
-    let inputField = document.querySelector('input[name="project_photo"]');
-    inputField.value = "";
   }
 
-  handleDeleteFromProjectPhotos(itemToDelete) {
+  handleDeleteFromProjectPhotos(photoIndex) {
+    photoIndex = parseInt(photoIndex);
     const { project_photos } = this.state;
+    let revisedPhotos = [];
+    for (let i = 0; i < project_photos.length; i++) {
+      if (i !== photoIndex) {
+        revisedPhotos.push(project_photos[i]);
+      }
+    }
     this.setState({
-      project_photos: hf.handleDeleteItem(itemToDelete, project_photos),
+      project_photos: revisedPhotos,
+    });
+  }
+
+  handleDeleteFromNewPhotos(photoIndex) {
+    photoIndex = parseInt(photoIndex);
+    const { new_photos, new_previews } = this.state;
+    let revisedPhotos = [];
+    let revisedPreviews = [];
+    for (let i = 0; i < new_photos.length; i++) {
+      if (i !== photoIndex) {
+        revisedPhotos.push(new_photos[i]);
+        revisedPreviews.push(new_previews[i]);
+      }
+    }
+    this.setState({
+      new_photos: revisedPhotos,
+      new_previews: revisedPreviews,
     });
   }
 
@@ -56,25 +87,30 @@ class EditDeleteUserProject extends React.Component {
       project_name,
       project_description,
       project_photos,
+      new_photos,
       help,
       needed_tools,
     } = this.state;
-    let editProjectObj = {
-      project_name: project_name,
-      project_description: project_description,
-      project_photos: project_photos,
-      needed_tools: needed_tools || [],
-      help: help,
+
+    const submitProjectEdit = (photoArray) => {
+      const allPhotos = project_photos.concat(photoArray);
+      let editProjectObj = {
+        project_name: project_name,
+        project_description: project_description,
+        project_photos: allPhotos,
+        needed_tools: needed_tools,
+        help: help,
+      };
+      axios
+        .put(`/users/${user_id}/projects/${_id}`, editProjectObj)
+        .then((response) => {
+          toggleProjectEditDelete();
+        })
+        .catch((err) => {
+          throw err;
+        });
     };
-    console.log(editProjectObj, _id, user_id);
-    axios
-      .put(`/users/${user_id}/projects/${_id}`, editProjectObj)
-      .then((response) => {
-        toggleProjectEditDelete();
-      })
-      .catch((err) => {
-        throw err;
-      });
+    hf.cloudinaryUpload(new_photos, submitProjectEdit);
   }
 
   deleteProject() {
@@ -92,28 +128,20 @@ class EditDeleteUserProject extends React.Component {
   }
 
   render() {
-    const {
-      toggleProjectEditDelete,
-    } = this.props;
-    const {
-      project_name,
-      project_description,
-      project_photos,
-      help,
-    } = this.state;
+    const { toggleProjectEditDelete } = this.props;
+    const { project_photos, new_photos, new_previews, help } = this.state;
     return (
       <div>
         Project Name:{" "}
         <input
           type="text"
-          name={project_name}
-          value={project_name}
+          name="project_name"
           onChange={this.handleGetFields}
         />
         Project Description:{" "}
         <input
           type="text"
-          value={project_description}
+          name="project_description"
           onChange={this.handleGetFields}
         />
         {project_photos !== [] && (
@@ -123,13 +151,20 @@ class EditDeleteUserProject extends React.Component {
             deleteFunction={this.handleDeleteFromProjectPhotos}
           />
         )}
+        {new_photos !== [] && (
+          <EditPhotoDisplay
+            key={new_photos}
+            photos={new_previews}
+            deleteFunction={this.handleDeleteFromNewPhotos}
+          />
+        )}
         Project Photos:{" "}
         <input
-          type="text"
+          type="file"
           name="project_photo"
-          onChange={this.handleGetFields}
+          onChange={this.handleAddToPhotoList}
+          multiple
         />
-        <button onClick={this.handleAddToPhotoList}>Add Photo</button>
         Need Help:{" "}
         <input
           type="checkbox"

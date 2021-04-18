@@ -3,6 +3,11 @@ $main-hover-color: rgba(255, 240, 212, 0.747);
 $accent-color: brown;
 $accent-hover-color: rgb(94, 11, 11);
 
+img {
+  width: 300px;
+  height: 300px;
+}
+
 #user-profile {
   margin: auto;
   display: grid;
@@ -71,8 +76,13 @@ $accent-hover-color: rgb(94, 11, 11);
   overflow: scroll;
 }
 
+.user-tool {
+  display: flex;
+  overflow: scroll;
+}
 
 .photo-container {
   display: flex;
+  flex-wrap: nowrap;
   overflow: scroll;
 }

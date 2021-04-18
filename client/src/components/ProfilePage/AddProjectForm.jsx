@@ -11,7 +11,6 @@ class AddProjectForm extends React.Component {
       project_name: "",
       project_description: "",
       needed_tool: "",
-      project_photo: null,
       help: false,
       needed_tools: [],
       project_photos: [],
