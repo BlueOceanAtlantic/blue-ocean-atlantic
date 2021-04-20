@@ -57,6 +57,7 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  z-index: 2;
 }
 
 #user-projects {

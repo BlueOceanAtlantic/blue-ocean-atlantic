@@ -12,6 +12,7 @@ const UserInfo = (props) => {
     email,
     showEditUserForm,
     toggleEditUserForm,
+    user_id,
   } = props;
   return (
     <div className="profile-card">
@@ -26,7 +27,9 @@ const UserInfo = (props) => {
       <div>{`ZIP Code: ${zip}`}</div>
       <div>{email}</div>
       {!showEditUserForm && (
-        <button className="edit-user-info-button" onClick={toggleEditUserForm}>Edit Profile</button>
+        <button className="edit-user-info-button" onClick={toggleEditUserForm}>
+          Edit Profile
+        </button>
       )}
       {showEditUserForm && (
         <EditUserInfo
@@ -36,6 +39,7 @@ const UserInfo = (props) => {
           email={email}
           password={password}
           toggleEditUserForm={toggleEditUserForm}
+          user_id={user_id}
         />
       )}
     </div>

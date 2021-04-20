@@ -1,16 +1,17 @@
 import React from "react";
 import axios from "axios";
 import EditPhotoDisplay from "./EditPhotoDisplay";
-import hf from './helperFunctions';
+import hf from "./helperFunctions";
 
 class EditDeleteUserTool extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      tool_name: this.props.tool.tool_name,
+      tool_name: "",
       tool_photos: this.props.tool.tool_photos,
-      tool_photo: "",
+      new_photos: [],
+      new_previews: [],
       help: this.props.tool.help,
     };
 
@@ -19,6 +20,7 @@ class EditDeleteUserTool extends React.Component {
     this.handleDeleteFromToolPhotos = this.handleDeleteFromToolPhotos.bind(
       this
     );
+    this.handleDeleteFromNewPhotos = this.handleDeleteFromNewPhotos.bind(this);
     this.handleToggleHelp = this.handleToggleHelp.bind(this);
     this.saveChanges = this.saveChanges.bind(this);
     this.deleteTool = this.deleteTool.bind(this);
@@ -28,16 +30,48 @@ class EditDeleteUserTool extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  handleAddToToolPhotoList() {
-    const { handleAddItem } = this.props;
-    const { tool_photo, tool_photos } = this.state;
-    this.setState({ tool_photos: handleAddItem(tool_photo, tool_photos) });
+  handleAddToToolPhotoList(e) {
+    debugger;
+    e.preventDefault();
+    const { new_photos, new_previews } = this.state;
+    let newPhoto = e.target.files[0];
+    let revisedPhotos = new_photos.concat(newPhoto);
+    let revisedPreviews = new_previews.concat(URL.createObjectURL(newPhoto));
 
+    this.setState({
+      new_photos: revisedPhotos,
+      new_previews: revisedPreviews,
+    });
   }
 
-  handleDeleteFromToolPhotos(target) {
+  handleDeleteFromToolPhotos(photoIndex) {
+    photoIndex = parseInt(photoIndex);
+    debugger;
     const { tool_photos } = this.state;
-    this.setState({ tool_photos: hf.handleDeleteItem(target, tool_photos) });
+    let revisedPhotos = [];
+    for (let i = 0; i < tool_photos.length; i++) {
+      if (i !== photoIndex) {
+        revisedPhotos.push(tool_photos[i]);
+      }
+    }
+    this.setState({ tool_photos: revisedPhotos });
+  }
+
+  handleDeleteFromNewPhotos(photoIndex) {
+    photoIndex = parseInt(photoIndex);
+    const { new_photos, new_previews } = this.state;
+    let revisedPhotos = [];
+    let revisedPreviews = [];
+    for (let i = 0; i < new_photos.length; i++) {
+      if (i !== photoIndex) {
+        revisedPhotos.push(new_photos[i]);
+        revisedPreviews.push(new_previews[i]);
+      }
+    }
+    this.setState({
+      new_photos: revisedPhotos,
+      new_previews: revisedPreviews,
+    });
   }
 
   handleToggleHelp() {
@@ -47,16 +81,35 @@ class EditDeleteUserTool extends React.Component {
   saveChanges() {
     const { user_id, toggleToolEditDelete } = this.props;
     const { _id } = this.props.tool;
-    const { tool_name, tool_photos, help } = this.state;
-    let editToolObj = {
-      tool_name: tool_name,
-      tool_photos: tool_photos,
-      help: help,
+    const { tool_name, tool_photos, new_photos, help } = this.state;
+    const submitToolEdit = (photoArray) => {
+      const allPhotos = tool_photos.concat(photoArray);
+      let editToolObj = {
+        tool_name: tool_name,
+        tool_photos: allPhotos,
+        help: help,
+      };
+      console.log(editToolObj, user_id, _id);
+      debugger;
+      axios
+        .put(`/users/${user_id}/tools/${_id}`)
+        .then((response) => {
+          toggleToolEditDelete();
+        })
+        .catch((err) => {
+          throw err;
+        });
     };
-    console.log(editToolObj, user_id, _id);
+    hf.cloudinaryUpload(new_photos, submitToolEdit);
+  }
+
+  deleteTool() {
+    const { user_id, toggleToolEditDelete } = this.props;
+    const { _id } = this.props.tool;
     axios
-      .put(`/users/${user_id}/tools/${_id}`)
-      .then((response) => {
+      .delete(`/users/${user_id}/tools/${_id}`)
+      .then(() => {
+        console.log("tool deleted");
         toggleToolEditDelete();
       })
       .catch((err) => {
@@ -64,22 +117,15 @@ class EditDeleteUserTool extends React.Component {
       });
   }
 
-  deleteTool() {
-    const { user_id } = this.props;
-    const { _id } = this.props.tool;
-    axios
-      .delete(`/users/${user_id}/tools/${id}`)
-      .then(() => {
-        console.log("tool deleted");
-      })
-      .catch((err) => {
-        throw err;
-      });
-  }
-
   render() {
-    const { tool, toggleToolEditDelete} = this.props;
-    const { tool_photos, tool_name, help } = this.state;
+    const { tool, toggleToolEditDelete } = this.props;
+    const {
+      tool_photos,
+      tool_name,
+      new_photos,
+      new_previews,
+      help,
+    } = this.state;
     return (
       <div>
         Tool Name:{" "}
@@ -96,7 +142,19 @@ class EditDeleteUserTool extends React.Component {
             deleteFunction={this.handleDeleteFromToolPhotos}
           />
         )}
-        <input type="text" name="tool_photo" onChange={this.handleGetFields} />
+        {new_photos !== [] && (
+          <EditPhotoDisplay
+            key={new_photos}
+            photos={new_previews}
+            deleteFunction={this.handleDeleteFromNewPhotos}
+          />
+        )}
+        <input
+          type="file"
+          name="tool_photo"
+          onChange={this.handleAddToToolPhotoList}
+          multiple
+        />
         <button onClick={this.handleAddToToolPhotoList}>Add Photo</button>
         Need Help:{" "}
         <input
@@ -106,6 +164,7 @@ class EditDeleteUserTool extends React.Component {
         />
         <button onClick={this.saveChanges}>Save Changes</button>
         <button onClick={toggleToolEditDelete}>Cancel</button>
+        <button onClick={this.deleteTool}>Delete Tool</button>
       </div>
     );
   }

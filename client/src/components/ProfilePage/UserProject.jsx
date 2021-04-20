@@ -22,12 +22,7 @@ class UserProject extends React.Component {
   }
 
   render() {
-    const {
-      project,
-      user_id,
-      handleGetTargetName,
-      handleAddItem,
-    } = this.props;
+    const { project, user_id, handleGetTargetName, handleAddItem } = this.props;
     const { showProjectEditDelete } = this.state;
     const formattedDate = this.formattedDate(project.createdAt);
     return (
@@ -44,7 +39,6 @@ class UserProject extends React.Component {
             <div>{project.needed_tools}</div>
             <div>{formattedDate}</div>
             <div>
-              Need Help: <input type="checkbox" onChange={this.toggleHelp} />
               <button onClick={this.toggleProjectEditDelete}>
                 Edit/Delete Project
               </button>
