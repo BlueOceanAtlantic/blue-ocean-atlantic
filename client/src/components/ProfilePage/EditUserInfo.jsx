@@ -33,7 +33,6 @@ class EditUserInfo extends React.Component {
     const { user_id } = this.props;
     const { name, zip, photo, email, password } = this.state;
     const handlePutUser = (profilePhoto) => {
-      debugger;
       if (name.length > 1 && zip.toString().length === 5) {
         const newUserInfo = {
           name: name,
