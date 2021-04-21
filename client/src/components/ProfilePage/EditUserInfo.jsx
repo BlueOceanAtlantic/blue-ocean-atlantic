@@ -9,7 +9,7 @@ class EditUserInfo extends React.Component {
     this.state = {
       name: this.props.name,
       zip: this.props.zip,
-      photo: [this.props.photo],
+      photo: [],
       preview_photo: null,
       email: this.props.email,
       password: this.props.password || "",
@@ -25,8 +25,7 @@ class EditUserInfo extends React.Component {
   handleChangeProfilePic(e) {
     e.preventDefault();
     let profilePhoto = [e.target.files[0]];
-    let profilePhotoPreview = URL.createObjectURL(profilePhoto);
-    this.setState({ photo: profilePhoto, preview_photo: profilePhotoPreview });
+    this.setState({ photo: profilePhoto });
   }
   handleSubmitUserInfo(e) {
     e.preventDefault();
